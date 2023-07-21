@@ -2,6 +2,12 @@
 
 ## Setup
 
+### Init
+
+```bash
+cd aws && terraform init
+```
+
 ### Install Terraform
 
 ```bash

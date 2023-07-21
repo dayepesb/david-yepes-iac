@@ -130,4 +130,5 @@ dist
 .pnp.*
 
 *.tfplan
-.terraform/providers
+aws/.terraform/providers
+.DS_Store
