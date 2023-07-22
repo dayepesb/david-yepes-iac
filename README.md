@@ -2,6 +2,16 @@
 
 ## Setup
 
+* first create user
+* create  policy with next statements
+```json
+{
+
+}
+```
+* Assign policy to user and create access key and secret key
+* Add access and secret key to ```~/.aws/credentials``` with profile ```personal```
+
 ### Init
 
 ```bash

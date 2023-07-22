@@ -6,12 +6,6 @@ terraform {
       version = "~> 3.0"
     }
   }
-  /*
-  var-file = matchkeys({
-    "sandbox" = "sandbox.tfvars",
-    "prod"    = "prod.tfvars"
-  }, terraform.workspace)
-  */
 }
 
 provider "aws" {
@@ -21,11 +15,33 @@ provider "aws" {
   //shared_credentials_file = "C:/Users/username/.aws/credentials"
 }
 
-resource "aws_secretsmanager_secret" "key" {
-  name        = "${terraform.workspace}-${var.secret_name}"
-  description = "key"
+resource "aws_s3_bucket" "s3_bucket_website_profile" {
+  bucket = "${terraform.workspace}-profile-website"
+  acl    = "private"
   tags = {
-    Name = "key"
+    Name        = "${terraform.workspace}-profile-website"
+    Environment = terraform.workspace
+  }
+}
 
+resource "aws_s3_bucket_website_configuration" "s3_bucket_website_configuration" {
+
+  bucket = "${terraform.workspace}-profile-website"
+  index_document {
+    suffix = "index.html"
+  }
+  error_document {
+    key = "error.html"
+  }
+
+  routing_rule {
+    condition {
+      http_error_code_returned_equals = 404
+    }
+    redirect {
+      host_name               = "profile.david-yepes.com"
+      protocol                = "https"
+      replace_key_prefix_with = "#!/"
+    }
   }
 }
